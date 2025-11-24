@@ -12,7 +12,11 @@ import io
 from flask import send_file
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for frontend communication
+CORS(app, origins=[
+    "http://localhost:5173",
+    "https://diabetes-prediction-sooty.vercel.app/",  # Your Vercel URL
+    "https://*.vercel.app"  # All Vercel deployments
+])  # Enable CORS for frontend communication
 
 # Load Artifacts
 MODELS = {}
