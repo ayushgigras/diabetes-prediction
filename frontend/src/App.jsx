@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Activity, AlertCircle, CheckCircle, HeartPulse, Info } from 'lucide-react';
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 function App() {
   const [formData, setFormData] = useState({
     Pregnancies: '2',
@@ -20,7 +22,7 @@ function App() {
 
   useEffect(() => {
     // Fetch model metrics on load
-    fetch('http://localhost:5000/api/metrics')
+    fetch(`${API_URL}/api/metrics`)
       .then(res => res.json())
       .then(data => setMetrics(data))
       .catch(err => console.error("Failed to load metrics", err));
@@ -40,7 +42,7 @@ function App() {
     setResult(null);
 
     try {
-      const response = await fetch('http://localhost:5000/api/predict', {
+      const response = await fetch(`${API_URL}/api/predict`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -249,9 +251,9 @@ function App() {
                 <div className="w-full md:w-2/3">
                   <img
                     src={
-                      graphView === 'performance' ? `http://localhost:5000/api/graph?t=${Date.now()}` :
-                        graphView === 'lr' ? `http://localhost:5000/api/graph/features/lr?t=${Date.now()}` :
-                          `http://localhost:5000/api/graph/features/rf?t=${Date.now()}`
+                      graphView === 'performance' ? `${API_URL}/api/graph?t=${Date.now()}` :
+                        graphView === 'lr' ? `${API_URL}/api/graph/features/lr?t=${Date.now()}` :
+                          `${API_URL}/api/graph/features/rf?t=${Date.now()}`
                     }
                     alt="Analysis Graph"
                     className="w-full rounded-lg shadow-sm border border-gray-200"
